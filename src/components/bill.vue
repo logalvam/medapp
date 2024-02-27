@@ -64,13 +64,10 @@
                 <p>Qty</p>
                 <p>Amount</p>
             </v-row>
-            <v-row  justify="space-around" >
-                <!-- <p>{{ value[index].medicinename }}</p>
-                <p>{{ value[index].qty }}</p>
-                <p>{{ value[index].unitprice }}</p> -->
-                <p>fds</p>
-                <p>fds</p>
-                <p>fds</p>
+            <v-row  justify="space-around"  v-for="(value,i) in billdetails" :key="i">
+                    <p>{{ billdetails[i].medicinename }}</p>
+                        <p>{{ billdetails[i].qty }}</p>
+                        <p>{{ billdetails[i].unitprice }}</p>
 
             </v-row>
         </v-col>
