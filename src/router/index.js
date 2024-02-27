@@ -20,19 +20,29 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
   {
-    path:'/medlogin',
-    name:'medlogin',
-    component:()=>import("../views/medlogin.vue")
+    path: "/medlogin",
+    name: "medlogin",
+    component: () => import("../views/medlogin.vue"),
   },
   {
-    path:'/adduser',
-    name:'adduser',
-    component:()=>import('../components/useraddbar.vue')
+    path: "/adduser",
+    name: "adduser",
+    component: () => import("../components/useraddbar.vue"),
   },
   {
-    path:'/bill',
-    name:'bill',
-    component:()=>import('../components/bill.vue')
+    path: "/bill",
+    name: "bill",
+    component: () => import("../components/bill.vue"),
+  },
+  {
+    path: "/stockView1",
+    name: "stockView1",
+    component: () => import("../components/stockview.vue"),
+  },
+  {
+    path: "/stockentry",
+    name: "stockentry",
+    component: () => import("../components/stockbar.vue"),
   }
 ];
 
