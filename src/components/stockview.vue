@@ -13,11 +13,11 @@
           
         <v-data-table 
         :headers="headers"
-        :items="newarr"
+        :items="newitemadd"
         :search="search" 
         ></v-data-table>
     </v-card>
-    {{ stock }}
+    {{ newarr }}
     <!-- <v-btn @click="click">click</v-btn> -->
     </div>
 </template>
@@ -59,23 +59,29 @@
     newarr:{
       handler(){
         if (this.newarr.length>=0){
-          console.log('kkkk')
-          for(var i in this.stock){
+          console.log('kkkk')        
+        }
+      },immediate:true
+    }
+    },
+    computed:{
+      newitemadd(){
+        let newarr=[]
+        for(var i in this.stock){
             for(var j in this.medicine){
                 if(this.stock[i].medicinename === this.medicine[j].medicinename){
                     let mergedObject = {
                         medicinename: this.stock[i].medicinename,
-                        quantity: this.stock[i].quantity, // Assuming this property exists in stock
-                        amount: this.stock[i].amount, // Assuming this property exists in stock
+                        quantity: this.stock[i].quantity, 
+                        amount: this.stock[i].amount, 
                         brandname: this.medicine[j].brandname
                     }
-                    this.newarr.push(mergedObject)
+                    newarr.push(mergedObject)
                 }
             }
-          }          
-        }
-      },immediate:true
-    }
+          }  
+        return newarr
+      }
     }
 
   }

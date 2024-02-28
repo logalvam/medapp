@@ -196,11 +196,6 @@ methods:{
     
     },
     computed:{
-        quantitychange(){
-            for (i in this.stock){
-                
-            }
-        }    
     }
     // watch:{
     //     qty(){
