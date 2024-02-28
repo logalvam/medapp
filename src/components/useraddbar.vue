@@ -7,7 +7,7 @@ import { RouterLink } from 'vue-router';
     <v-expansion-panel>
       <v-expansion-panel-header>Add</v-expansion-panel-header>
       <v-expansion-panel-content>
-        <v-form v-model="valid">
+        <v-form >
     <v-container> 
       <v-row >
         <v-col

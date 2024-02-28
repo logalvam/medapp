@@ -12,11 +12,11 @@ export default new Vuex.Store({
       {username:'invent',password:'5678',role:'Inventry'},
       {username:'admin',password:'9012',role:'SystemAdmin'},
     ],
-    loginhistory:[
+    loginhistory:[  
     ],
     medicinemaster:[
       {medicinename:'Bacitracin',brandname:'xyz'},
-      {medicinename:'Bactrim',brandname:'xyz'},
+      {medicinename:'Bactrim',brandname:'xy5z'},
       {medicinename:'Aspirin',brandname:'Bayer Aspirin'},
       {medicinename:'Levothyroxine',brandname:'Levoxyl'},
       {medicinename:'Metoprolol',brandname:'Lopressor'},

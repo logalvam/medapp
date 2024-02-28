@@ -13,34 +13,71 @@
           
         <v-data-table 
         :headers="headers"
-        :items="desserts"
+        :items="newarr"
         :search="search" 
         ></v-data-table>
     </v-card>
+    {{ stock }}
+    <!-- <v-btn @click="click">click</v-btn> -->
     </div>
 </template>
 <script>
   export default {
+    name:'',
+    components:{
+    },
     data () {
       return {
-        medcine:this.$store.state.medicinemaster,
+        search:'',
+        
+        medicine:this.$store.state.medicinemaster,
         stock:this.$store.state.stock,
-        headers: [ {text:'Medicine Name'}, {text:'Brand Name'},{text:'Qty'},{text:'Unit Price'}
-        //   {
-        //     text: 'Medicine Name',
-        //     align: 'start',
-        //     sortable: false,
-        //     value: 'name',
-        //   },
-        //   { text: 'Brand Name', value: 'calories' },
-        //   { text: 'Qty', value: 'fat' },
-        //   { text: 'Unit Price', value: 'carbs' },
-        //   { text: 'Protein (g)', value: 'protein' },
-        //   { text: 'Iron (%)', value: 'iron' },
+        // mergedArray:this.$store.state.stock.concat(this.$store.state.medicinemaster),
+        headers: [ 
+          // {text:'Medicine Name'}, {text:'Brand Name'},{text:'Qty'},{text:'Unit Price'}
+          {
+          text: "Medicine Name",
+          align: "start",
+          sortable: false,
+          value: "medicinename",
+        },
+        { text: "Brand Name", value: "brandname" },
+        { text: "Qty", value: "quantity" },
+        { text: "Unit Price", value: "amount" }, 
         ],
+        newarr:[]
         
       }
     },
+    props:{
+      // sendvalue:String
+    },
+    methods:{
+    },
+    watch:{
+
+    newarr:{
+      handler(){
+        if (this.newarr.length>=0){
+          console.log('kkkk')
+          for(var i in this.stock){
+            for(var j in this.medicine){
+                if(this.stock[i].medicinename === this.medicine[j].medicinename){
+                    let mergedObject = {
+                        medicinename: this.stock[i].medicinename,
+                        quantity: this.stock[i].quantity, // Assuming this property exists in stock
+                        amount: this.stock[i].amount, // Assuming this property exists in stock
+                        brandname: this.medicine[j].brandname
+                    }
+                    this.newarr.push(mergedObject)
+                }
+            }
+          }          
+        }
+      },immediate:true
+    }
+    }
 
   }
 </script>
+

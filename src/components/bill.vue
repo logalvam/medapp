@@ -15,7 +15,7 @@
                                         :items="items"
                                         item-text="medicinename"
                                         dense
-                                        :filter="customFilter"
+                                       
                                         filled
                                         label="Filled"
                                     ></v-autocomplete>
@@ -70,6 +70,16 @@
                         <p>{{ billdetails[i].unitprice }}</p>
 
             </v-row>
+            <v-row justify=end> 
+                <v-col  cols="12" md="4" >
+                    <v-card class="green">
+                        <h4>Total:{{ total }}</h4>
+                        <h4>GST:{{ gst  }}</h4>
+                        <h4>NetPrice:{{ netpay }}</h4>
+
+                    </v-card>
+                </v-col>
+            </v-row>
         </v-col>
     </v-row>
 </v-container>
@@ -77,7 +87,7 @@
               <v-btn
                 text
                 @click="dialog.value = false"
-              >Close</v-btn>
+              >Print</v-btn>
           </v-card>
         </template>
     </v-dialog>
@@ -116,7 +126,7 @@
         billno:0,
         data:new Date().toLocaleDateString(),
         total:0,
-        gst:0,
+        gst:'18%',
         netpay:0,
         bname:'',
         uprice:0,
@@ -143,18 +153,68 @@ methods:{
                 this.bname= this.items[i].brandname
             }
         }
-        for( var j in this.stock){
-            if (this.medname === this.stock[j].medicinename){
-                this.uprice = Number(this.stock[j].amount)
-                this.total +=Number(this.qty)*this.uprice
+        // for( var j in this.stock){
+        //     if (this.medname === this.stock[j].medicinename){
+        //         this.uprice = Number(this.stock[j].amount)
+        //         this.total +=Number(this.qty)*this.uprice
+        //     }
+        // }
+        for(var k in this.stock){
+                if(this.medname=== this.stock[k].medicinename){
+                    if(this.stock[k].quantity>=this.qty){
+                        this.stock[k].quantity -=this.qty
+                        this.uprice = Number(this.stock[k].amount)
+                        this.total +=Number(this.qty)*this.uprice
+                        this.netpay = this.total + this.total*18/100
+                        let newitem = {medicinename:this.medname,brandname:this.bname,qty:Number(this.qty),unitprice:this.uprice}
+                        this.billdetails.push(newitem)
+                    }
+                    else if(this.stock[k].quantity<this.qty){
+                        alert('stock is not available')
+                    }
+                }
             }
-        }
-        let newitem = {medicinename:this.medname,brandname:this.bname,qty:Number(this.qty),unitprice:this.uprice}
-        this.billdetails.push(newitem)
+
     },
     print(){
 
+    },
+    save(){
+        for(var i in this.items){
+            if (this.medname === this.items[i].medicinename){
+                this.bname= this.items[i].brandname
+            }
+        }
+        for(var k in this.stock){
+                if(this.medname=== this.stock[k].medicinename){
+                    if(this.stock[k].quantity>=this.qty){
+                        this.stock[k].quantity -=this.qty
+                    }
+                }
+            }
+        },
+    
+    },
+    computed:{
+        quantitychange(){
+            for (i in this.stock){
+                
+            }
+        }    
     }
-}   
+    // watch:{
+    //     qty(){
+    //         for(var i in this.stock){
+    //             if(this.medname=== this.stock[i].medicinename){
+    //                 if(this.stock[i].quantity>this.qty){
+    //                     this.stock[i].quantity -=this.qty
+    //                 }
+    //                 else if(this.stock[i].quantity<this.qty){
+    //                     alert('stock is not available')
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }   
   }
 </script>

@@ -33,7 +33,22 @@ const routes = [
     path:'/bill',
     name:'bill',
     component:()=>import('../components/bill.vue')
-  }
+  },
+  {
+    path: "/stockView1",
+    name: "stockView1",
+    component: () => import("../components/stockview.vue"),
+  },
+  {
+    path: "/stockentry",
+    name: "stockentry",
+    component: () => import("../components/stockbar.vue"),
+  },
+  {
+    path:'/salesreport',
+    name:'salesreportl',
+    component:()=>import('../components/salesreport.vue')
+  },
 ];
 
 const router = new VueRouter({
