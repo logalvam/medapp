@@ -100,6 +100,7 @@ export default {
     add() {
       let newmedicine = { medicinename: this.bname, brandname: this.medicine };
       this.$store.state.medicinemaster.push(newmedicine);
+      console.log("hai");
     },
   },
 };
