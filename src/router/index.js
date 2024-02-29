@@ -22,7 +22,7 @@ const routes = [
   {
     path:'/medlogin',
     name:'medlogin',
-    component:()=>import("../views/medlogin.vue")
+    component:()=>import("../components/medlogin.vue")
   },
   {
     path:'/adduser',

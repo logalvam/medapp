@@ -100,7 +100,7 @@
             <v-btn fluid class="mt-11" @click="update">update</v-btn>
         </v-col>
       </v-row>
-      {{ medicinemaster }} {{ stock }}
+      <!-- {{ medicinemaster }} {{ stock }} -->
     </v-container>
   <!-- </v-form>
       </v-expansion-panel-content>

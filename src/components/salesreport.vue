@@ -1,40 +1,200 @@
 <template>
     <div>
-        <v-card width="500" height="600" class="green">
-            <!-- {{ stock }} -->
-            <!-- {{ medicine }} -->
-            {{ newarr }}
-        </v-card>
-        <v-btn @click="show">click</v-btn>
-    </div>
+
+    <v-card width="100vw" height="70">
+        <v-row>
+      <v-col
+        cols="12"
+        sm="6"
+        md="4"
+      >
+        <v-menu
+          ref="menu"
+          v-model="menu"
+          :close-on-content-click="false"
+          :return-value.sync="date"
+          transition="scale-transition"
+          offset-y
+          min-width="auto"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="date"
+              label="Start date"
+              prepend-icon="mdi-calendar"
+              readonly
+              v-bind="attrs"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker
+            v-model="date"
+            no-title
+            scrollable
+          >
+            <v-spacer></v-spacer>
+            <v-btn
+              text
+              color="primary"
+              @click="menu = false"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+              text
+              color="primary"
+              @click="$refs.menu.save(date)"
+            >
+              OK
+            </v-btn>
+          </v-date-picker>
+        </v-menu>
+      </v-col>
+      <v-spacer></v-spacer>
+      <v-col
+        cols="12"
+        sm="6"
+        md="4"
+      >
+        <v-dialog
+          ref="dialog"
+          v-model="modal"
+          :return-value.sync="date1"
+          persistent
+          width="290px"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="date1"
+              label="End date"
+              prepend-icon="mdi-calendar"
+              readonly
+              v-bind="attrs"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker
+            v-model="date"
+            scrollable
+          >
+            <v-spacer></v-spacer>
+            <v-btn
+              text
+              color="primary"
+              @click="modal = false"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+              text
+              color="primary"
+              @click="$refs.dialog.save(date)"
+            >
+              OK
+            </v-btn>
+          </v-date-picker>
+        </v-dialog>
+      </v-col>
+      <v-col
+        cols="12"
+        sm="6"
+        md="4"
+      >
+        <v-btn color='primary' @click="search">Search</v-btn>
+      </v-col>
+      <v-spacer></v-spacer>
+      
+    </v-row>
+    </v-card>
+    <template>
+  <v-data-table
+    :headers="headers"
+    :items="newarr"
+    :items-per-page="5"
+    class="elevation-1"
+  ></v-data-table>
+</template>
+{{ arr }}
+</div>
+
 </template>
 <script>
-export default{
-    name:'',
-    data(){
-        return{
-            stock:this.$store.state.stock,
-            medicine:this.$store.state.medicinemaster,
-            newarr:[]
-        }
+  export default {
+    data () {
+      return {
+        date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+    date1: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+    menu: false,
+    modal: false,
+    arr:[],
+    billdetails:this.$store.state.billdetails,
+    billmaster:this.$store.state.billmaster,
+    headers: [
+          {
+            text: 'Billno)',
+            align: 'start',
+            sortable: false,
+            value: 'name',
+          },
+          { text: 'Billdate', value: 'billdate' },
+          { text: 'Medicine Name', value: 'medicinename' },
+          { text: 'Quantity', value: 'quantity' },
+          { text: 'unitprice', value: 'unitprice' },
+          { text: 'amount', value: 'amount' },
+        ],
+        newarr:[],
+        filterarr:[]
+      }
     },
-    methods:{
-        show(){
-            for(var i in this.stock){
-                for(var j in this.medicine){
-                    if(this.stock[i].medicinename === this.medicine[j].medicinename){
-                        let mergedObject = {
-                            medicinename: this.stock[i].medicinename,
-                            quantity: this.stock[i].quantity, // Assuming this property exists in stock
-                            amount: this.stock[i].amount, // Assuming this property exists in stock
-                            brandname: this.medicine[j].brandname
-                        }
-                        this.newarr.push(mergedObject)
+    mounted(){
+        // console.log(this.billdetails)
+        // console.log('kil')
+        // console.log(this.billdetails)
+        // console.log(this.billmaster)
+        // newitemadd(){
+        for(var i in this.billdetails){
+            for(var j in this.billmaster){
+                // console.log('ll')
+                // console.log(this.billmaster)
+                if(this.billdetails[i].billno === this.billmaster[j].billno){
+                    // console.log('sat')
+                    let mergedObject = {
+                        billno: this.billdetails[i].billno,
+                        medicinename: this.billdetails[i].medicinename, 
+                        quantity: this.billdetails[i].qty, 
+                        unitprice: this.billdetails[i].unitprice,
+                        amount: Number(this.billdetails[i].qty)*Number(this.billdetails[i].unitprice), 
+                        billdate: this.billmaster[j].billdate
                     }
+                    this.newarr.push(mergedObject)
                 }
             }
-            // this.newarr=Array.prototype.push.apply(this.stock,this.medicine);
-        }
+              }  
+            //     // return newarr
+        // }
+        console.log(this.newarr)
+    },
+    computed:{
+
+    },
+    props:{
+        generate:Boolean
+    },
+   methods:{
+    search(){
+        let start = new Date( this.date).toLocaleDateString()
+        let stop = new Date( this.date1).toLocaleDateString()
+        for (var i in this.newarr){
+            if(start>=this.newarr[i].billdate){
+                if(stop<=this.newarr[i].billdate){
+                    console.log('work')
+                }
+            }
+        }        
+
     }
-}
+   },
+   watch:{
+   }
+  }
 </script>

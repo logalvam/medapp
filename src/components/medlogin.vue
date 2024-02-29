@@ -8,14 +8,14 @@
             <v-row class="d-flex flex-row pa-1 justify-end">
                 <!-- <v-col class=""> -->
                     <v-col cols="12" >
-                        <v-btn class="ml-3">Dashboard</v-btn>
-                        <v-btn  @click="bill" class="ml-3">Bill Entry</v-btn>
-                        <v-btn @click="stockview" class="ml-3">StockView</v-btn>
-                        <v-btn  @click="stockentry" class="ml-3">stock Entry</v-btn>
-                        <v-btn  class="ml-3" @click="report">Sales Report</v-btn>
-                        <v-btn class="ml-3" @click="adduser">Adduser</v-btn>
-                        <v-btn  class="ml-3" @click="loginhis">login history</v-btn>
-                        <v-btn class="ml-3" @click="logout">login out</v-btn>
+                        <v-btn  class="ml-3" @click="dashboard">Dashboard</v-btn>
+                        <v-btn v-show="billEntry"   @click="bill" class="ml-3">Bill Entry</v-btn>
+                        <v-btn v-show="stockView"  @click="stockview" class="ml-3">StockView</v-btn>
+                        <v-btn v-show="stockEntry"   @click="stockentry" class="ml-3">stock Entry</v-btn>
+                        <v-btn v-show="salesReport"   class="ml-3" @click="report">Sales Report</v-btn>
+                        <v-btn v-show="addUser"  class="ml-3" @click="adduser">Adduser</v-btn>
+                        <v-btn v-show="loginHistory"   class="ml-3" @click="loginhis">login history</v-btn>
+                        <v-btn   class="ml-3" @click="logout">log out</v-btn>
                     </v-col>
 
 
@@ -28,7 +28,7 @@
             <stockview v-show="viewshow"/>
         </v-card>
         <v-card>
-            <bill v-show="billshow"/>
+            <bill :currentuserid="currentuserid" v-show="billshow"/>
         </v-card>
         <v-card >
             <stockentry v-show="entrystock" />
@@ -40,10 +40,11 @@
             <loginhistory v-show="loginhistory"/>
         </v-card>
         <v-card>
-            <salesreport v-show="salesreport"/>
+            <salesreport :generate="generate" v-show="salesreport"/>
         </v-card>
-
-      
+        <v-card>
+            <billerdash :val="currentrole" v-show="billdash" />
+        </v-card>
     </div>
 
 </template>
@@ -54,16 +55,19 @@ import stockentry from "../components/stockbar.vue"
 import adduser from "../components/useraddbar.vue"
 import loginhistory from "../components/loginhistory.vue"
 import salesreport from "../components/salesreport.vue"
+import billerdash from "../components/billerdash.vue"
 export default{
     name:'',
     data(){
         return{
-            // addUser:true,
-            // stockEntry:true,
-            // stockView:true,
-            // billEntry:true,
-            // SaleReport:true,
-            // loginHistory:true,
+            addUser:false,
+            stockEntry:false,
+            stockView:false,
+            billEntry:false,
+            salesReport:false,
+            loginHistory:false,
+
+
             biller:false,
             manager:false,
             admin:false,
@@ -72,16 +76,25 @@ export default{
             billshow:false,
             entrystock:false,
             useradd:false,
+            billdash:false,
             loginhistory:false,
             salesreport:false,
             logoudate:'',
+            // value:'',
+
             medicine:this.$store.state.medicinemaster,
             stock:this.$store.state.stock,  
-            newarr:[]
+            login:this.$store.state.login,
+            newarr:[],
+            loghistory:this.$store.state.loginhistory,
+            currentuserid:'',
+            currentrole:'',
+            generate:false
         }
     },
     props:{
-    
+        userrole:String,
+        Euserid:String    
     },
     components:{
         stockview,
@@ -89,13 +102,18 @@ export default{
         stockentry,
         adduser,
         loginhistory,
-        salesreport
+        salesreport,
+        billerdash
     },
     methods:{
         logout(){
             this.logoudate = new Date().toLocaleString()
+            for (var i in this.loghistory){
+                if(this.currentuserid ===  this.loghistory[i].userid){
+                    this.loghistory[i].logout = this.logoudate
+                }
+            }
             this.$router.push("/")
-            this.$emit('logout',this.logoudate)
             
         },
         adduser(){
@@ -105,6 +123,7 @@ export default{
             this.entrystock=false
             this.loginhistory=false
             this.salesreport=false
+            this.billdash=false
 
             // this.$router.push('/adduser')
         },
@@ -115,11 +134,25 @@ export default{
             this.useradd=false
             this.loginhistory=false
             this.salesreport=false
-            
+            this.billdash=false
 
 
             // this.$router.push('/bill')
         },
+        dashboard(){
+            this.billdash=true
+            this.billshow=false
+            this.viewshow=false
+            this.entrystock=false
+            this.useradd=false
+            this.loginhistory=false
+            this.salesreport=false
+            this.value='total'
+            // if(this.currentrole==='Biller'){
+
+            // }
+        }
+        ,
         stockview() {
             this.viewshow=true
             this.billshow=false
@@ -129,6 +162,7 @@ export default{
             this.salesreport=false
             // this.$emit('stockarr')
             // this.$router.push("/stockView1");
+            this.billdash=false
 
         },
         stockentry() {
@@ -138,7 +172,7 @@ export default{
             this.useradd=false
             this.loginhistory=false
             this.salesreport=false
-
+            this.billdash=false
             // this.$router.push("/stockentry")
         },
         loginhis(){
@@ -148,6 +182,7 @@ export default{
             this.billshow=false
             this.useradd=false
             this.salesreport=false
+            this.billdash=false
 
         },
         report(){
@@ -157,15 +192,57 @@ export default{
             this.viewshow=false
             this.billshow=false
             this.useradd=false
+            this.billdash=false
+            this.generate=true
+            setTimeout(() => {
+                this.generate=false
+            }, 2000);
             // this.$router.push('/salesreport')
         },
         
     },
     computed:{
+        // userid(){
+        //     // console.lof(this.entryuserid)
+        //     return this.userrole
+        // }
+      
+    },
+    created(){
+        
+        let len = this.loghistory.length-1
+            this.currentuserid=this.loghistory[len].userid
+            for (var i in this.login){
+                if(this.currentuserid=== this.login[i].username){
+                    this.currentrole=this.login[i].role
+                }
 
+            }
     },
     watch:{
-        
+    currentrole:{
+        handler(){
+            if(this.currentrole==='Biller'){
+                this.stockView=true
+                this.billEntry=true
+            }
+            else if(this.currentrole === 'Manager'){
+                this.stockEntry=true
+                this.stockView=true
+                this.salesReport=true
+            }
+            else if(this.currentrole === 'SystemAdmin'){
+                this.addUser=true
+                this.loginHistory=true
+            }
+            else if(this.currentrole === 'Inventry'){
+                this.stockEntry=true
+                this.stockView=true
+            }
+        },immediate:true
     }
 }
+    
+}
 </script>
+

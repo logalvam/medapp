@@ -17,7 +17,8 @@
         :search="search" 
         ></v-data-table>
     </v-card>
-    {{ newarr }}
+    <!-- {{ newarr }}
+     -->
     <!-- <v-btn @click="click">click</v-btn> -->
     </div>
 </template>
@@ -55,14 +56,6 @@
     methods:{
     },
     watch:{
-
-    newarr:{
-      handler(){
-        if (this.newarr.length>=0){
-          console.log('kkkk')        
-        }
-      },immediate:true
-    }
     },
     computed:{
       newitemadd(){
