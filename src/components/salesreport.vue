@@ -12,14 +12,14 @@
           ref="menu"
           v-model="menu"
           :close-on-content-click="false"
-          :return-value.sync="date"
+          :return-value.sync="date1"
           transition="scale-transition"
           offset-y
           min-width="auto"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
-              v-model="date"
+              v-model="date1"
               label="Start date"
               prepend-icon="mdi-calendar"
               readonly
@@ -28,7 +28,7 @@
             ></v-text-field>
           </template>
           <v-date-picker
-            v-model="date"
+            v-model="date1"
             no-title
             scrollable
           >
@@ -43,7 +43,7 @@
             <v-btn
               text
               color="primary"
-              @click="$refs.menu.save(date)"
+              @click="$refs.menu.save(date1)"
             >
               OK
             </v-btn>
@@ -59,13 +59,13 @@
         <v-dialog
           ref="dialog"
           v-model="modal"
-          :return-value.sync="date1"
+          :return-value.sync="date2"
           persistent
           width="290px"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
-              v-model="date1"
+              v-model="date2"
               label="End date"
               prepend-icon="mdi-calendar"
               readonly
@@ -74,7 +74,7 @@
             ></v-text-field>
           </template>
           <v-date-picker
-            v-model="date"
+            v-model="date2"
             scrollable
           >
             <v-spacer></v-spacer>
@@ -88,7 +88,7 @@
             <v-btn
               text
               color="primary"
-              @click="$refs.dialog.save(date)"
+              @click="$refs.dialog.save(date2)"
             >
               OK
             </v-btn>
@@ -109,7 +109,7 @@
     <template>
   <v-data-table
     :headers="headers"
-    :items="newarr"
+    :items="filterarr"
     :items-per-page="5"
     class="elevation-1"
   ></v-data-table>
@@ -122,7 +122,7 @@
   export default {
     data () {
       return {
-        date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        date2: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
     date1: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
     menu: false,
     modal: false,
@@ -134,7 +134,7 @@
             text: 'Billno)',
             align: 'start',
             sortable: false,
-            value: 'name',
+            value: 'billno',
           },
           { text: 'Billdate', value: 'billdate' },
           { text: 'Medicine Name', value: 'medicinename' },
@@ -182,19 +182,23 @@
     },
    methods:{
     search(){
+      this.filterarr=[]
         let start = new Date( this.date).toLocaleDateString()
         let stop = new Date( this.date1).toLocaleDateString()
         for (var i in this.newarr){
             if(start>=this.newarr[i].billdate){
                 if(stop<=this.newarr[i].billdate){
                     console.log('work')
+                    console.log(this.newarr[i])
+                    this.filterarr.push(this.newarr[i])
                 }
             }
-        }        
+        }  
+        console.log(this.filterarr)      
 
     }
    },
    watch:{
-   }
+   },
   }
 </script>

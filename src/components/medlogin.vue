@@ -57,7 +57,7 @@ import loginhistory from "../components/loginhistory.vue"
 import salesreport from "../components/salesreport.vue"
 import billerdash from "../components/billerdash.vue"
 export default{
-    name:'',
+    name:'medlogin',
     data(){
         return{
             addUser:false,
@@ -200,13 +200,6 @@ export default{
             // this.$router.push('/salesreport')
         },
         
-    },
-    computed:{
-        // userid(){
-        //     // console.lof(this.entryuserid)
-        //     return this.userrole
-        // }
-      
     },
     created(){
         

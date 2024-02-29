@@ -32,7 +32,7 @@
 </template>
 <script>
 export default{
-    name:'',
+    name:'billdash',
     data(){
         return{
             system_inventry:false,
