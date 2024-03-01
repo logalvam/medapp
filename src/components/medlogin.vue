@@ -110,10 +110,15 @@ export default{
             this.logoudate = new Date().toLocaleString()
             for (var i in this.loghistory){
                 if(this.currentuserid ===  this.loghistory[i].userid){
-                    this.loghistory[i].logout = this.logoudate
+                    let access = confirm("are you sure ?")
+                    if (access === true){
+                        this.loghistory[i].logout = this.logoudate
+                        this.$router.push("/")
+                    }
+                    
                 }
             }
-            this.$router.push("/")
+            
             
         },
         adduser(){
