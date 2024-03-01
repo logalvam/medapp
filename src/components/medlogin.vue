@@ -43,7 +43,7 @@
             <salesreport :generate="generate" v-show="salesreport"/>
         </v-card>
         <v-card>
-            <billerdash :val="currentrole" v-show="billdash" />
+            <billerdash :val="currentrole" :user="currentuserid" v-show="billdash" />
         </v-card>
     </div>
 
@@ -81,6 +81,7 @@ export default{
             salesreport:false,
             logoudate:'',
             // value:'',
+
             medicine:this.$store.state.medicinemaster,
             stock:this.$store.state.stock,  
             login:this.$store.state.login,

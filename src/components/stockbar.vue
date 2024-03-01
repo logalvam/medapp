@@ -1,14 +1,17 @@
 <template>
 
-<div>
-    <v-card width="800">
+  <div >
+    <v-sheet height="100vh" class="d-flex mt-16 justify-center">
+
+    <v-card width="800" height="400" class="" >
         <v-dialog width="500"> 
             <template v-slot:activator="{ on, attrs }">
         <v-btn
-          color="red lighten-2"
           dark
           v-bind="attrs"
           v-on="on"
+          
+          class="white--text black ml-3 md-12 "
         >
           add
         </v-btn>
@@ -24,8 +27,8 @@
             <v-col class="ml-12" cols="12" md="10">
                 <v-text-field label="Medicine" v-model="medicine"></v-text-field>
             </v-col>
-            <v-col>
-                <v-btn cols="12" md="12" @click="add">Add</v-btn>
+            <v-col cols="12" align-self-center>
+                <v-btn cols="12" md="12" class="white--text black " @click="add">Add</v-btn>
             </v-col>
         </v-row>
       </v-card>
@@ -53,17 +56,10 @@
           md="3"
         >
         <v-container id="dropdown-example-3">
-              <!-- <v-overflow-btn
-                class="mt-8"
-                :items="medicinemaster"
-                item-text="brandname"
-                label="Brand name"
-                v-model="bname"
-              ></v-overflow-btn> -->
               <v-text-field
               v-model="brandname1"
               :counter="20"
-              class="mt-10"
+              class="mt-9"
               required
               disabled
             ></v-text-field>
@@ -77,7 +73,7 @@
         <v-text-field
               v-model="qty"
               :counter="20"
-              class="mt-10"
+              class="mt-12"
               label="Qty"
               required
             ></v-text-field>
@@ -90,14 +86,14 @@
         <v-text-field
               v-model="uprice"
               :counter="20"
-              class="mt-10"
+              class="mt-12"
               label="uprice"
               required
             ></v-text-field>
         </v-col>
 
-        <v-col cols="12" md="12" >
-            <v-btn fluid class="mt-11" @click="update">update</v-btn>
+        <v-col cols="12" class="md-12" >
+            <v-btn fluid class="mt-11  black white--text" @click="update">update</v-btn>
         </v-col>
       </v-row>
       <!-- {{ medicinemaster }} {{ stock }} -->
@@ -107,7 +103,9 @@
     </v-expansion-panel>
   </v-expansion-panels> -->
 </v-card>
+</v-sheet>
 </div>
+
 
 </template>
 

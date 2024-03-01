@@ -4,7 +4,7 @@
     <!-- <HelloWorld msg="Welcome to Your Vue.js App" /> -->
   
     <loginpage/>
-
+<!-- <appexchart/> -->
  </div>
 
 </template>
@@ -15,6 +15,7 @@
 // import useraddbar from "../components/useraddbar.vue"
 // import medlogin from "../views/medlogin.vue"
 import loginpage from "../components/loginpage.vue"
+// import appexchart  from "../components/praticesappex.vue"
 export default {
   name: "Home",
   data(){
@@ -34,7 +35,8 @@ export default {
     // HelloWorld,
     // useraddbar,
     // medlogin,
-    loginpage
+    loginpage,
+    // appexchart
 
   },
   methods:{

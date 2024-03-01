@@ -12,7 +12,7 @@
                 <v-row class="mt-12">
                     <v-col cols="12" md="12" >
                         <h1 class="white--text">TodaySales</h1>
-                        <span class="white--text text--h1">{{ comparesales }} </span>
+                        <span class="white--text text_h1">{{ comparesales }} </span>
                     </v-col>
                 </v-row>
             </v-container>
@@ -21,14 +21,14 @@
                     <v-col cols="12" md="12" >
                         <h1 class="white--text">TodaySales</h1>
                         <div v-if="yesterdaysales<comparesales">
-                            <span class="red--text text--h1">{{ comparesales }} </span><v-icon color="red">mdi-arrow-down</v-icon>
+                            <span class="red--text text_h1">{{ comparesales }} </span><v-icon color="red">mdi-arrow-down</v-icon>
                         </div>
 
                         <div v-if="yesterdaysales>comparesales">
-                            <span class="green--text text--h1">{{ comparesales }} </span><v-icon color="green">mdi-arrow-up</v-icon>
+                            <span class="green--text text_h1">{{ comparesales }} </span><v-icon color="green">mdi-arrow-up</v-icon>
                         </div>
                         <div v-if="comparesales===0">
-                            <span class="red--text text--h1">not yet started</span><v-icon color="white">mdi-arrow-down</v-icon>
+                            <span class="red--text text_h1">not yet started</span><v-icon color="white">mdi-arrow-down</v-icon>
                         </div>
 
                     </v-col>
@@ -58,7 +58,7 @@ export default{
             currentrole:this.val,
             sales:false,
             stockprices:false,
-            manager:false
+            manager:false,
         }
     },
     props:{
@@ -93,7 +93,7 @@ export default{
                 else if(this.currentrole === 'Biller'){
                     this.sales = true
                     this.stockprices = false
-                    this.system_inventry = true
+                    this.system_inventry = false
                     this.manager = false
 
                     } 

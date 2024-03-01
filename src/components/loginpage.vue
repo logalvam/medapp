@@ -9,7 +9,6 @@
 <div>
  <v-dialog
        transition="dialog-top-transition"
-       scrollable
        width="500"
      >
        <template v-slot:activator="{ on, attrs }">
@@ -19,12 +18,12 @@
            v-on="on"
          >Login</v-btn>
        </template>
-       <template >
+       <!-- <template > -->
          <v-card>
-           <v-sheet class="d-flex" rounded="false">
+           <v-card class="d-flex" rounded="false">
                <v-row justify="center" align='center'>
                    <v-card width="" height="" color="">
-                       <v-container fluid class="pt-10">
+                       <v-container  class="pt-10">
                            <v-row>
                            <v-col cols="12" md="10"  class="ml-6"> 
                                <v-text-field v-model="userid"  label="userid">
@@ -44,9 +43,9 @@
                    </v-container>
                </v-card>
            </v-row>
-       </v-sheet >
+       </v-card >
    </v-card>
-</template>
+<!-- </template> -->
 </v-dialog>
 </div>
 </v-row>

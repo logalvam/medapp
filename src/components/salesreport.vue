@@ -100,7 +100,7 @@
         sm="6"
         md="4"
       >
-        <v-btn color='primary' @click="search">Search</v-btn>
+        <v-btn class="black white--text" @click="search">Search</v-btn>
       </v-col>
       <v-spacer></v-spacer>
       
@@ -194,7 +194,7 @@ this.visible=true
             billdate: match.billdate,
             medicinename: current.medicinename,
             quantity: current.quantity,
-            amount: current.amount
+            amount: current.unitprice
         });
     }
     this.filterarr = mergedArray
