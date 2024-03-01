@@ -201,13 +201,6 @@ export default{
         },
         
     },
-    computed:{
-        // userid(){
-        //     // console.lof(this.entryuserid)
-        //     return this.userrole
-        // }
-      
-    },
     created(){
         
         let len = this.loghistory.length-1

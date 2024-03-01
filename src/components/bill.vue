@@ -21,7 +21,7 @@
                                     ></v-autocomplete>
                                 </v-col>
                                 <v-col cols="12" md="4">
-                                    <v-text-field label="Quantity" v-model="qty"></v-text-field>
+                                    <v-text-field label="Quantity" v-model="qty" type="number"></v-text-field>
                                 </v-col>
                                 <v-col cols="12" md="4">
                                     <v-btn @click="add()">Add</v-btn>
@@ -73,8 +73,8 @@
 
             </v-row>
             <v-row justify=end> 
-                <v-col  cols="12" md="4" >
-                    <v-card class="green">
+                <v-col  cols="12" md="6" >
+                    <v-card class="black white--text">
                         <h4>Total:{{ total }}</h4>
                         <h4>GST:{{ gst  }}</h4>
                         <h4>NetPrice:{{ netpay }}</h4>
@@ -98,7 +98,7 @@
                     </v-col>
                     <v-col cols="12" md="12" class="d-flex justify-space-around">
                         <h4>Billno:{{ billnum }}</h4>
-                        <h4>Date:{{ data }}</h4>
+                        <h4>Date:{{ date }}</h4>
                         <h4>Total:{{ total }}</h4>
                         <h4>GST:{{ gst }}</h4>
                         <h4>Netpay:{{ netpay }}</h4>
@@ -126,7 +126,7 @@
         medname:'',
         qty:'',
         billno:6,
-        data:new Date().toLocaleDateString(),
+        date:new Date().toLocaleDateString(),
         total:0,
         gst:'18%',
         netpay:0,
@@ -148,7 +148,9 @@
           },
           { text: 'Brand Name', value: 'brandname' },
           { text: 'Qty', value: 'qty' },
-          { text: 'Unit Price', value: 'unitprice' }]
+          { text: 'Unit Price', value: 'unitprice' }],
+          billmasterclone:[],
+          billdetailsclone:[]
     }
 },
 props:{
@@ -161,8 +163,8 @@ methods:{
                 this.bname= this.items[i].brandname
             }
         }
-        console.log(this.billdetails)
-        console.log(this.tempbill)
+        // console.log(this.billdetails)
+        // console.log(this.tempbill)
 
         // for( var j in this.stock){
         //     if (this.medname === this.stock[j].medicinename){
@@ -171,37 +173,67 @@ methods:{
         //     }
         // }
         for(var k in this.stock){
-                if(this.medname=== this.stock[k].medicinename){
-                    if(this.stock[k].quantity>=this.qty){
-                        this.stock[k].quantity -=this.qty
-                        this.uprice = Number(this.stock[k].amount)
-                        this.total +=Number(this.qty)*this.uprice
-                        this.netpay = this.total + this.total*18/100
-                        let newitem = {billno:this.billnum,medicinename:this.medname,brandname:this.bname,qty:Number(this.qty),unitprice:this.uprice}
-                        this.tempbill.push(newitem)
-                    }
-                    else if(this.stock[k].quantity<this.qty){
-                        alert('stock is not available')
-                    }
+            if(this.medname === this.stock[k].medicinename){
+                if(this.qty<= this.stock[k].quantity){
+                    this.uprice = this.stock[k].amount
+                    this.total = Number(this.qty) * this.uprice
+                    this.netpay = 18/100 *this.total  + this.total
+                    this.tempbill.push({medicinename:this.medname,brandname:this.bname,qty:this.qty,unitprice:this.uprice})
                 }
-                // console.log(this.billmaster)
+                else{
+                    alert('stock is not available')
+                    break
+                }
             }
+        }
+
+
 
     },
     print(){
 
     },
     save(){
-        let date = new Date().toLocaleDateString()
-        let newbillmaster = {'billno':this.billnum,'billdate':date,'billamount':this.total,'billgst':this.gst,'netprice':this.netpay,'userid':this.currentuserid}
-        this.billmaster.push(newbillmaster)
+        console.log(this.billno)
+        console.log('llllll')
         console.log(this.billmaster)
-        for (var m in this.tempbill){
-            this.billdetails.push(this.tempbill[m])
+        for(var a in this.tempbill){
+            let bill = {
+                billno:this.billno,
+                medicinename:this.tempbill[a].medicinename,
+                quantity:this.tempbill[a].qty,
+                unitprice:this.tempbill[a].unitprice,
+                amount:this.total
+            }
+            this.billdetails.push(bill)
         }
+        // let date = new Date().toLocaleDateString()
+        // for (var l in this.billmaster){
+            //     if(this.billno === this.billmaster[l].billno){
+                
+                //     }
+                // }
+        let newbillmaster = {'billno':this.billno,'billdate':this.date,'billamount':this.total,'billgst':this.gst,'netprice':this.netpay,'userid':this.currentuserid}
+        this.billmaster.push(newbillmaster)
+        // console.log("................")
+        // console.log(this.billmaster)
+        // console.log("................")
+        // console.log(this.billdetailsclone)
+        // console.log(this.billdetails)
+        // for (var m in this.billdetailsclone){
+        //     this.billdetails.push(this.billdetailsclone[m])
+    
+        // }
         console.log(this.billdetails)
+        console.log('billdetails after push')
+        console.log(this.billmaster)
+        // for (var n in this.billmasterclone){
+        //     this.billmaster.push(this.billmasterclone[n])
+        // }
+        // console.log(this.billmaster)
+
         // this.billdetails.push(this.tempbill)
-        this.billnum +=1
+        this.billno +=1
         for(var i in this.items){
             if (this.medname === this.items[i].medicinename){
                 this.bname= this.items[i].brandname

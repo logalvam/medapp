@@ -12,14 +12,14 @@
           ref="menu"
           v-model="menu"
           :close-on-content-click="false"
-          :return-value.sync="date"
+          :return-value.sync="date1"
           transition="scale-transition"
           offset-y
           min-width="auto"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
-              v-model="date"
+              v-model="date1"
               label="Start date"
               prepend-icon="mdi-calendar"
               readonly
@@ -28,7 +28,7 @@
             ></v-text-field>
           </template>
           <v-date-picker
-            v-model="date"
+            v-model="date1"
             no-title
             scrollable
           >
@@ -43,7 +43,7 @@
             <v-btn
               text
               color="primary"
-              @click="$refs.menu.save(date)"
+              @click="$refs.menu.save(date1)"
             >
               OK
             </v-btn>
@@ -59,13 +59,13 @@
         <v-dialog
           ref="dialog"
           v-model="modal"
-          :return-value.sync="date1"
+          :return-value.sync="date2"
           persistent
           width="290px"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
-              v-model="date1"
+              v-model="date2"
               label="End date"
               prepend-icon="mdi-calendar"
               readonly
@@ -74,7 +74,7 @@
             ></v-text-field>
           </template>
           <v-date-picker
-            v-model="date"
+            v-model="date2"
             scrollable
           >
             <v-spacer></v-spacer>
@@ -88,7 +88,7 @@
             <v-btn
               text
               color="primary"
-              @click="$refs.dialog.save(date)"
+              @click="$refs.dialog.save(date2)"
             >
               OK
             </v-btn>
@@ -109,12 +109,12 @@
     <template>
   <v-data-table
     :headers="headers"
-    :items="newarr"
+    :items="filterarr"
     :items-per-page="5"
     class="elevation-1"
+    v-show="visible"
   ></v-data-table>
 </template>
-{{ arr }}
 </div>
 
 </template>
@@ -122,8 +122,8 @@
   export default {
     data () {
       return {
-        date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-    date1: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        date1: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+    date2: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
     menu: false,
     modal: false,
     arr:[],
@@ -131,70 +131,96 @@
     billmaster:this.$store.state.billmaster,
     headers: [
           {
-            text: 'Billno)',
+            text: 'Billno',
             align: 'start',
             sortable: false,
-            value: 'name',
+            value: 'billno',
           },
           { text: 'Billdate', value: 'billdate' },
           { text: 'Medicine Name', value: 'medicinename' },
           { text: 'Quantity', value: 'quantity' },
-          { text: 'unitprice', value: 'unitprice' },
+          // { text: 'unitprice', value: 'unitprice' },
           { text: 'amount', value: 'amount' },
         ],
-        newarr:[],
-        filterarr:[]
+        filterarr:[],
+        visible:false,
+        billno:0,
+        billdate:'',
+        qty:0,
+        medicinename:'',
+        amount:0,
+        report:[]
       }
-    },
-    mounted(){
-        // console.log(this.billdetails)
-        // console.log('kil')
-        // console.log(this.billdetails)
-        // console.log(this.billmaster)
-        // newitemadd(){
-        for(var i in this.billdetails){
-            for(var j in this.billmaster){
-                // console.log('ll')
-                // console.log(this.billmaster)
-                if(this.billdetails[i].billno === this.billmaster[j].billno){
-                    // console.log('sat')
-                    let mergedObject = {
-                        billno: this.billdetails[i].billno,
-                        medicinename: this.billdetails[i].medicinename, 
-                        quantity: this.billdetails[i].qty, 
-                        unitprice: this.billdetails[i].unitprice,
-                        amount: Number(this.billdetails[i].qty)*Number(this.billdetails[i].unitprice), 
-                        billdate: this.billmaster[j].billdate
-                    }
-                    this.newarr.push(mergedObject)
-                }
-            }
-              }  
-            //     // return newarr
-        // }
-        console.log(this.newarr)
-    },
-    computed:{
-
     },
     props:{
         generate:Boolean
     },
    methods:{
     search(){
-        let start = new Date( this.date).toLocaleDateString()
-        let stop = new Date( this.date1).toLocaleDateString()
-        for (var i in this.newarr){
-            if(start>=this.newarr[i].billdate){
-                if(stop<=this.newarr[i].billdate){
-                    console.log('work')
-                }
+      let newarray=[]
+        // let start = new Date( this.date).toLocaleDateString()
+        // let stop = new Date( this.date1).toLocaleDateString()
+        for (var i in this.filterarr){
+          if(this.date1>=this.filterarr[i].billdate){
+            if(this.date2<=this.filterarr[i].billdate){
+              alert('word')
+                      // console.log('work')
+                      // console.log(this.newarr[i])
+                      newarray.push(this.filterarr[i])
+                  }
+              }
             }
-        }        
-
+            this.report=newarray 
     }
    },
    watch:{
-   }
+   },
+   mounted(){
+    console.log('  mounted')
+    
+// let newarr=[]
+this.visible=true
+      // console.log(this.billdetails
+      let mergedArray = [];
+
+    for (let i = 0; i < this.billdetails.length; i++) {
+    const current = this.billdetails[i];
+    const match = this.billmaster.find(item => item.billno === current.billno);
+    if (match) {
+        mergedArray.push({
+            billno: current.billno,
+            billdate: match.billdate,
+            medicinename: current.medicinename,
+            quantity: current.quantity,
+            amount: current.amount
+        });
+    }
+    this.filterarr = mergedArray
+} 
+          console.log(this.filterarr)
+
+             
+   },
+   beforeMount(){
+    console.log('before mounted')
+    },
+
+
   }
 </script>
+
+
+<!-- 
+
+ this.visible=true
+      
+ -->
+
+ <!-- 
+
+
+  -->
+
+<!-- 
+
+  -->
