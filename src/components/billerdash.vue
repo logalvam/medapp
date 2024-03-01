@@ -12,7 +12,7 @@
                 <v-row class="mt-12">
                     <v-col cols="12" md="12" >
                         <h1 class="white--text">TodaySales</h1>
-                        <span class="white--text text_h1">{{ comparesales }} </span>
+                        <span class="white--text text_h1">{{ this.useramount }} </span>
                     </v-col>
                 </v-row>
             </v-container>
@@ -56,13 +56,16 @@ export default{
             billmaster:this.$store.state.billmaster,
             stock:this.$store.state.stock,
             currentrole:this.val,
+            currentuser:this.user,
             sales:false,
             stockprices:false,
             manager:false,
+            useramount:0
         }
     },
     props:{
-        val:String
+        val:String,
+        user:String
     },
     methods:{
         
@@ -98,7 +101,18 @@ export default{
 
                     } 
             },immediate:true
+        },
+        currentuser:{
+            handler(){
+                // console.log(this.currentuser)
+                for(var i in this.billmaster){
+                    if(this.currentuser === this.billmaster[i].userid){
+                        this.useramount += this.billmaster[i].billamount
+                    }
+                }
+            },immediate:true
         }
+
     },
     computed:{
         yesterdaysales(){
