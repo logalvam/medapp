@@ -90,28 +90,28 @@ export default{
                        if (this.data[i].role === 'Biller') {
                            this.userrolerole = 'Biller';
                            alert('user is biller');
-                           let newuserentry = { 'userid': user, 'login': this.date, 'logout': this.logout };
+                           let newuserentry = { userid: user, 'login': this.date, 'logout': this.logout };
                            this.$store.state.loginhistory.push(newuserentry)
                            this.$router.push('/medlogin');
                        }
                        else if (this.data[i].role === 'Manager') {
                                this.userrolerole = 'Manager';
                                alert('user is manager');
-                                let newuserentry = { 'userid': user, 'login': this.date, 'logout': this.logout };
+                                let newuserentry = { userid: user, 'login': this.date, 'logout': this.logout };
                                 this.$store.state.loginhistory.push(newuserentry)
                                 this.$router.push('/medlogin');
                        }
                        else if (this.data[i].role === 'SystemAdmin') {
                         this.userrolerole = 'SyatemAdmin';
                                alert('user is admin');
-                                let newuserentry = { 'userid': user, 'login': this.date, 'logout': this.logout };
+                                let newuserentry = { userid: user, 'login': this.date, 'logout': this.logout };
                                 this.$store.state.loginhistory.push(newuserentry)
                                 this.$router.push('/medlogin');
                        }
                        else if (this.data[i].role === 'Inventry') {
                            this.userrolerole = 'Inventry';
                                alert('user is Inventry');
-                                let newuserentry = { 'userid': user, 'login': this.date, 'logout': this.logout };
+                                let newuserentry = { userid : user, 'login': this.date, 'logout': this.logout };
                                 this.$store.state.loginhistory.push(newuserentry)
                                 this.$router.push('/medlogin');
                        }

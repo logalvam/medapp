@@ -81,7 +81,6 @@ export default{
             salesreport:false,
             logoudate:'',
             // value:'',
-
             medicine:this.$store.state.medicinemaster,
             stock:this.$store.state.stock,  
             login:this.$store.state.login,

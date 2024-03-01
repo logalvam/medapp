@@ -27,6 +27,9 @@
                         <div v-if="yesterdaysales>comparesales">
                             <span class="green--text text--h1">{{ comparesales }} </span><v-icon color="green">mdi-arrow-up</v-icon>
                         </div>
+                        <div v-if="comparesales===0">
+                            <span class="red--text text--h1">not yet started</span><v-icon color="white">mdi-arrow-down</v-icon>
+                        </div>
 
                     </v-col>
                 </v-row>
