@@ -57,7 +57,7 @@ import loginhistory from "../components/loginhistory.vue"
 import salesreport from "../components/salesreport.vue"
 import billerdash from "../components/billerdash.vue"
 export default{
-    name:'',
+    name:'mainpage',
     data(){
         return{
             addUser:false,

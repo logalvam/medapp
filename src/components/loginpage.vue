@@ -154,13 +154,13 @@ export default{
                 
     },
     created(){
-        console.log('created')
+        // console.log('created')
     },
     mounted(){
-        console.log('mounted')
+        // console.log('mounted')
     },
     destroyed(){
-        console.log('destroyed')
+        // console.log('destroyed')
     }
 }
 </script>

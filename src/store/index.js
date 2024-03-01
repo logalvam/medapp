@@ -33,7 +33,41 @@ export default new Vuex.Store({
 
     ],
     billdetails:[
-      
+      {
+        "billno": 1,
+        "medicinename": "Bacitracin",
+        "quantity": "3",
+        "unitprice": 12,
+        "amount": 60
+    },
+    {
+        "billno": 2,
+        "medicinename": "Aspirin",
+        "quantity": "3",
+        "unitprice": 20,
+        "amount": 60
+    }, {
+      "billno": 3,
+      "medicinename": "Bacitracin",
+      "quantity": "3",
+      "unitprice": 12,
+      "amount": 60
+  },
+  {
+      "billno": 4,
+      "medicinename": "Aspirin",
+      "quantity": "3",
+      "unitprice": 20,
+      "amount": 60
+  },
+  {
+    "billno": 5,
+    "medicinename": "Bacitracin",
+    "quantity": "3",
+    "unitprice": 12,
+    "amount": 60
+}
+
     ]
   },
   mutations: {},

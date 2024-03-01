@@ -12,7 +12,6 @@
                 <v-row class="mt-12">
                     <v-col cols="12" md="12" >
                         <h1 class="white--text">TodaySales</h1>
-                        <v-if></v-if>
                         <span class="white--text text--h1">{{ comparesales }} </span>
                     </v-col>
                 </v-row>
@@ -47,7 +46,7 @@
 </template>
 <script>
 export default{
-    name:'',
+    name:'billerdashboard',
     data(){
         return{
             system_inventry:false,

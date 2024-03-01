@@ -109,7 +109,7 @@
     <template>
   <v-data-table
     :headers="headers"
-    :items="filterarr"
+    :items="report"
     :items-per-page="5"
     class="elevation-1"
     v-show="visible"
@@ -158,12 +158,13 @@
    methods:{
     search(){
       let newarray=[]
-        // let start = new Date( this.date).toLocaleDateString()
-        // let stop = new Date( this.date1).toLocaleDateString()
+        let start = new Date( this.date).toLocaleDateString()
+        let stop = new Date( this.date1).toLocaleDateString()
         for (var i in this.filterarr){
-          if(this.date1>=this.filterarr[i].billdate){
-            if(this.date2<=this.filterarr[i].billdate){
-              alert('word')
+          console.log(this.filterarr[i].billdate)
+          if(start>=this.filterarr[i].billdate){
+            if(stop<=this.filterarr[i].billdate){
+              // alert('word')
                       // console.log('work')
                       // console.log(this.newarr[i])
                       newarray.push(this.filterarr[i])
@@ -171,6 +172,7 @@
               }
             }
             this.report=newarray 
+            // console.log(newarray)
     }
    },
    watch:{

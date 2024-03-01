@@ -97,7 +97,7 @@
                         <v-btn class="white--text black"  @click="save">Save</v-btn>
                     </v-col>
                     <v-col cols="12" md="12" class="d-flex justify-space-around">
-                        <h4>Billno:{{ billnum }}</h4>
+                        <h4>Billno:{{ billno }}</h4>
                         <h4>Date:{{ date }}</h4>
                         <h4>Total:{{ total }}</h4>
                         <h4>GST:{{ gst }}</h4>
@@ -163,21 +163,13 @@ methods:{
                 this.bname= this.items[i].brandname
             }
         }
-        // console.log(this.billdetails)
-        // console.log(this.tempbill)
-
-        // for( var j in this.stock){
-        //     if (this.medname === this.stock[j].medicinename){
-        //         this.uprice = Number(this.stock[j].amount)
-        //         this.total +=Number(this.qty)*this.uprice
-        //     }
-        // }
+        
         for(var k in this.stock){
             if(this.medname === this.stock[k].medicinename){
                 if(this.qty<= this.stock[k].quantity){
                     this.uprice = this.stock[k].amount
-                    this.total = Number(this.qty) * this.uprice
-                    this.netpay = 18/100 *this.total  + this.total
+                    this.total += Number(this.qty) * this.uprice
+                    this.netpay =this.total + 18/100 *this.total  
                     this.tempbill.push({medicinename:this.medname,brandname:this.bname,qty:this.qty,unitprice:this.uprice})
                 }
                 else{
@@ -194,9 +186,6 @@ methods:{
 
     },
     save(){
-        console.log(this.billno)
-        console.log('llllll')
-        console.log(this.billmaster)
         for(var a in this.tempbill){
             let bill = {
                 billno:this.billno,
@@ -207,32 +196,14 @@ methods:{
             }
             this.billdetails.push(bill)
         }
-        // let date = new Date().toLocaleDateString()
-        // for (var l in this.billmaster){
-            //     if(this.billno === this.billmaster[l].billno){
-                
-                //     }
-                // }
+        
         let newbillmaster = {'billno':this.billno,'billdate':this.date,'billamount':this.total,'billgst':this.gst,'netprice':this.netpay,'userid':this.currentuserid}
         this.billmaster.push(newbillmaster)
-        // console.log("................")
-        // console.log(this.billmaster)
-        // console.log("................")
-        // console.log(this.billdetailsclone)
-        // console.log(this.billdetails)
-        // for (var m in this.billdetailsclone){
-        //     this.billdetails.push(this.billdetailsclone[m])
-    
-        // }
+        
         console.log(this.billdetails)
         console.log('billdetails after push')
         console.log(this.billmaster)
-        // for (var n in this.billmasterclone){
-        //     this.billmaster.push(this.billmasterclone[n])
-        // }
-        // console.log(this.billmaster)
-
-        // this.billdetails.push(this.tempbill)
+        
         this.billno +=1
         for(var i in this.items){
             if (this.medname === this.items[i].medicinename){
