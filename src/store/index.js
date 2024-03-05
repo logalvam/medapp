@@ -29,7 +29,12 @@ export default new Vuex.Store({
       {medicinename:'Bactrim',quantity:6,amount:13},
 
     ],
-    billmaster:[{billno:1,billdate:'29/02/2024',billamount:200,billgst:'18%',netprice:240,userid:'abcd'},{billno:2,billdate:'29/02/2024',billamount:100,billgst:'18%',netprice:120,userid:'efgh'},{billno:3,billdate:'29/02/2024',billamount:50,billgst:'18%',netprice:55,userid:'abcd'},{billno:4,billdate:'29/02/2024',billamount:500,billgst:'18%',netprice:640,userid:'efgh'},{billno:5,billdate:'29/02/2024',billamount:220,billgst:'18%',netprice:20,userid:'abcd'}
+    billmaster:[
+      {billno:1,billdate:'01/03/2024',billamount:200,billgst:'18%',netprice:240,userid:'abcd'},
+    {billno:2,billdate:'01/03/2024',billamount:100,billgst:'18%',netprice:120,userid:'efgh'},
+    {billno:3,billdate:'01/03/2024',billamount:50,billgst:'18%',netprice:55,userid:'abcd'},
+    {billno:4,billdate:'01/03/2024',billamount:500,billgst:'18%',netprice:640,userid:'efgh'},
+    {billno:5,billdate:'01/03/2024',billamount:220,billgst:'18%',netprice:20,userid:'abcd'}
 
     ],
     billdetails:[

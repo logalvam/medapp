@@ -12,7 +12,7 @@
                 <v-row class="mt-12">
                     <v-col cols="12" md="12" >
                         <h1 class="white--text">TodaySales</h1>
-                        <span class="white--text text_h1">{{ this.useramount }} </span>
+                        <span class="white--text text_h1">{{ comparesales    }} </span>
                     </v-col>
                 </v-row>
             </v-container>
@@ -30,7 +30,6 @@
                         <div v-if="comparesales===0">
                             <span class="red--text text_h1">not yet started</span><v-icon color="white">mdi-arrow-down</v-icon>
                         </div>
-
                     </v-col>
                 </v-row>
             </v-container>
@@ -48,6 +47,7 @@
     </div>
 </template>
 <script>
+// import apexchart from 'vue-apexcharts'
 export default{
     name:'billerdashboard',
     data(){
@@ -60,12 +60,16 @@ export default{
             sales:false,
             stockprices:false,
             manager:false,
-            useramount:0
+            useramount:0,
+            
         }
     },
     props:{
         val:String,
         user:String
+    },
+    components:{
+        // apexchart
     },
     methods:{
         
@@ -107,6 +111,7 @@ export default{
                 // console.log(this.currentuser)
                 for(var i in this.billmaster){
                     if(this.currentuser === this.billmaster[i].userid){
+                        
                         this.useramount += this.billmaster[i].billamount
                     }
                 }
@@ -119,8 +124,12 @@ export default{
             let total =0
             for(var i in this.billmaster){
             let today = new Date().toLocaleDateString()
-            if (today > this.billmaster[i].billdate){
-                total += this.billmaster[i].netprice
+            let yesterday = new Date(today - 24 * 60 * 60 * 1000).toDateString()
+            if (yesterday === this.billmaster[i].billdate ){
+
+                // if (today > this.billmaster[i].billdate){
+                    total += this.billmaster[i].netprice
+                // }   
             }
         }
         return total

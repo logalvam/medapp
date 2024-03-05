@@ -69,6 +69,7 @@
               label="End date"
               prepend-icon="mdi-calendar"
               readonly
+              :min='today'
               v-bind="attrs"
               v-on="on"
             ></v-text-field>
@@ -149,7 +150,7 @@
         qty:0,
         medicinename:'',
         amount:0,
-        report:[]
+        report:[],
       }
     },
     props:{
@@ -164,25 +165,20 @@
           console.log(this.filterarr[i].billdate)
           if(start>=this.filterarr[i].billdate){
             if(stop<=this.filterarr[i].billdate){
-              // alert('word')
-                      // console.log('work')
-                      // console.log(this.newarr[i])
                       newarray.push(this.filterarr[i])
                   }
               }
             }
             this.report=newarray 
-            // console.log(newarray)
-    }
-   },
+    },
+    
+  },
    watch:{
    },
    mounted(){
     console.log('  mounted')
     
-// let newarr=[]
 this.visible=true
-      // console.log(this.billdetails
       let mergedArray = [];
 
     for (let i = 0; i < this.billdetails.length; i++) {
@@ -205,24 +201,10 @@ this.visible=true
    },
    beforeMount(){
     console.log('before mounted')
+    this.today=new Date().toLocaleDateString()
+    console.log(this.today)
     },
-
-
+    
   }
 </script>
 
-
-<!-- 
-
- this.visible=true
-      
- -->
-
- <!-- 
-
-
-  -->
-
-<!-- 
-
-  -->
