@@ -1,19 +1,19 @@
 <template>
     <div>
-        <stockview/>
+        <stockentry/>
     </div>
 </template>
 <script>
-import stockview from '../components/stockview.vue';
+import stockentry from '../components/stockbar.vue';
 export default{
-    name:'stockview',
+    name:'stockentry',
     date(){
         return{
 
         }
     },
     components:{
-stockview
+stockentry
     }
 }
 </script>

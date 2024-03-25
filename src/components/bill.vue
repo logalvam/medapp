@@ -32,9 +32,8 @@
                 </v-expansion-panel>
             </v-expansion-panels>
         </v-sheet>
-        <v-container></v-container>
-        <v-sheet width="100vw" class="d-flex green">
-            <v-container fluid>
+        <v-sheet width="100vw" class="d-flex black">
+            <v-container fluid v-show="bills">
                 <v-row>
                     <v-col cols="12" md="5">
                         <v-dialog
@@ -43,7 +42,7 @@
       >
         <template v-slot:activator="{ on, attrs }">
                         <v-btn @click="print" 
-                        class="black white--text mr-5"
+                        class="white black--text mr-5"
                         v-bind="attrs"
                         v-on="on"
                         >Preview</v-btn>
@@ -52,10 +51,10 @@
           <v-card>
             <v-sheet >
 
-<v-container class="green" >
+<v-container class="black" >
     <v-row>
         <v-col cols="12" md="12">
-            <h1 class="text-center">Medical Shop Name</h1>
+            <h1 class="text-center white--text">Medical Shop Name</h1>
         </v-col>
         <v-divider></v-divider>
         <v-col cols="12" md="12" class="white">
@@ -94,14 +93,14 @@
         </template>
     </v-dialog>
 
-                        <v-btn class="white--text black"  @click="save">Save</v-btn>
+                        <v-btn class="black--text white"  @click="save">Save</v-btn>
                     </v-col>
                     <v-col cols="12" md="12" class="d-flex justify-space-around">
-                        <h4>Billno:{{ billno }}</h4>
-                        <h4>Date:{{ date }}</h4>
-                        <h4>Total:{{ total }}</h4>
-                        <h4>GST:{{ gst }}</h4>
-                        <h4>Netpay:{{ netpay }}</h4>
+                        <h4 class="white--text">Billno:{{ billno }}</h4>
+                        <h4 class="white--text">Date:{{ date }}</h4>
+                        <h4 class="white--text">Total:{{ total }}</h4>
+                        <h4 class="white--text">GST:{{ gst }}</h4>
+                        <h4 class="white--text">Netpay:{{ netpay }}</h4>
                         <!-- {{ billdetails }} -->
                     </v-col>
                 </v-row>
@@ -113,6 +112,7 @@
                 ></v-data-table>
             </v-container>
         </v-sheet>
+    
         <div>        
         </div>
         <div>
@@ -128,7 +128,7 @@
         billno:6,
         date:new Date().toLocaleDateString(),
         total:0,
-        gst:'18%',
+        gst:0,
         netpay:0,
         bname:'',
         uprice:0,
@@ -138,6 +138,7 @@
       billmaster:this.$store.state.billmaster,
       billnum:6,
       value: null,
+      bills:false,
       tempbill:[],
       headers: [
           {
@@ -158,6 +159,7 @@ props:{
 },
 methods:{
     add(){
+        this.bills = true
         for(var i in this.items){
             if (this.medname === this.items[i].medicinename){
                 this.bname= this.items[i].brandname
@@ -169,7 +171,8 @@ methods:{
                 if(this.qty<= this.stock[k].quantity){
                     this.uprice = this.stock[k].amount
                     this.total += Number(this.qty) * this.uprice
-                    this.netpay =this.total + 18/100 *this.total  
+                    this.gst += Number(18/100*this.total)
+                    this.netpay =Number(this.total + 18/100 *this.total  )
                     this.tempbill.push({medicinename:this.medname,brandname:this.bname,qty:this.qty,unitprice:this.uprice})
                 }
                 else{
@@ -186,6 +189,7 @@ methods:{
 
     },
     save(){
+        this.billno +=1
         for(var a in this.tempbill){
             let bill = {
                 billno:this.billno,
@@ -200,11 +204,6 @@ methods:{
         let newbillmaster = {'billno':this.billno,'billdate':this.date,'billamount':this.total,'billgst':this.gst,'netprice':this.netpay,'userid':this.currentuserid}
         this.billmaster.push(newbillmaster)
         
-        console.log(this.billdetails)
-        console.log('billdetails after push')
-        console.log(this.billmaster)
-        
-        this.billno +=1
         for(var i in this.items){
             if (this.medname === this.items[i].medicinename){
                 this.bname= this.items[i].brandname
@@ -220,16 +219,13 @@ methods:{
         this.tempbill=[]
         this.netpay=0
         this.total=0
-        console.log(this.billmaster)
+        // console.log(this.billmaster)
 
 
         },
     
     },
-    created(){
-        // console.log(this.billmaster[0].billno)
 
-    },
     computed:{
     }
     // watch:{

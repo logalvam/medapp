@@ -4,7 +4,7 @@
     <v-sheet height="100vh" class="d-flex mt-16 justify-center">
 
     <v-card width="800" height="400" class="" >
-        <v-dialog width="500"> 
+        <v-dialog width="500" v-model="dialog"> 
             <template v-slot:activator="{ on, attrs }">
         <v-btn
           dark
@@ -127,6 +127,7 @@ export default {
   },
   methods: {
     add() {
+      this.dialog=false
       let newmedicine = { medicinename: this.bname, brandname: this.medicine };
       this.$store.state.medicinemaster.push(newmedicine);
       // console.log("hai");

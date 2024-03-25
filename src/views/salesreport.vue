@@ -5,6 +5,7 @@
 </template>
 <script>
 import salesreport from '../components/salesreport.vue';
+
 export default{
     name:'salesreport',
     date(){
@@ -13,7 +14,7 @@ export default{
         }
     },
     components:{
-stockview
+salesreport
     }
 }
 </script>

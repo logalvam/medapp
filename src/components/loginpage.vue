@@ -1,7 +1,7 @@
 <template>
     <div >
        <v-app-bar
- color="black lighten-1"
+ color="grey darken-3 lighten-1"
  elevation="4"
  >
    <v-container fluid class="white">
@@ -9,7 +9,7 @@
 <div>
  <v-dialog
        transition="dialog-top-transition"
-       width="500"
+       width="400"
      >
        <template v-slot:activator="{ on, attrs }">
          <v-btn
@@ -20,32 +20,52 @@
          >Login</v-btn>
        </template>
        <!-- <template > -->
-         <v-card>
-           <v-card class="d-flex" rounded="false">
-               <v-row justify="center" align='center'>
-                   <v-card width="" height="" color="">
-                       <v-container  class="pt-10">
-                           <v-row>
-                           <v-col cols="12" md="10"  class="ml-6"> 
-                               <v-text-field v-model="userid"  label="userid">
-                               </v-text-field>
-                           </v-col>
-                           <v-col cols="12" md="10" class="ml-6" >
-                               <v-text-field v-model="password" type="password" label="password">
-                               </v-text-field>
-                           </v-col>
-                           <v-col cols="12" md="12" class="d-flex justify-center">
-                               <v-btn
-                               @click="login" class="black white--text" :disabled="valid" color="">
-                                   login
-                               </v-btn>
-                           </v-col>
-                       </v-row>
-                   </v-container>
-               </v-card>
-           </v-row>
-       </v-card >
-   </v-card>
+        <v-card>
+        <v-card-title>
+          <span class="text-h5">User Login</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col
+                cols="12"
+                sm="6"
+                md="11"
+              >
+                <v-text-field
+                  label="User name*"
+                  v-model="userid"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="11"
+              >
+                <v-text-field
+                v-model="password" 
+                  label="Password"
+                  type="password"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          
+       
+          <v-btn
+            color="black--text"
+            text
+            @click="login"
+            :disabled="valid"
+          >
+            Login
+          </v-btn>
+        </v-card-actions>
+      </v-card>
 <!-- </template> -->
 </v-dialog>
 </div>
@@ -54,12 +74,18 @@
 </v-container>
 </v-app-bar>      
 
-    <!-- <div  >
-            <medlogin1 :userrole="userrole" :Euserid="propuserid" />
-        </div> -->
+        <!-- <div> -->
+            <v-card fluid class="grey darken-3 rounded-0"   width="100vw" height="95vh">
+                <v-container>
+                    
+
+                </v-container>
+            </v-card>
+        <!-- </div> -->
    </div>
 </template>
 <script>
+
 
 // import medlogin1 from "../components/medlogin.vue"
 export default{
@@ -73,7 +99,8 @@ export default{
            userrole:'',
            logout:'notyet',
            valid:false,
-           propuserid:''
+           propuserid:'',
+        
        };
    },
    methods: {

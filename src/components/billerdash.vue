@@ -12,7 +12,7 @@
                 <v-row class="mt-12">
                     <v-col cols="12" md="12" >
                         <h1 class="white--text">TodaySales</h1>
-                        <span class="white--text text_h1">{{ comparesales    }} </span>
+                        <span class="white--text text_h1">{{ todaysales    }} </span>
                     </v-col>
                 </v-row>
             </v-container>
@@ -20,16 +20,25 @@
                 <v-row class="mt-12">
                     <v-col cols="12" md="12" >
                         <h1 class="white--text">TodaySales</h1>
-                        <div v-if="yesterdaysales<comparesales">
+                        <div v-if="yesterdaysales> comparesales">
                             <span class="red--text text_h1">{{ comparesales }} </span><v-icon color="red">mdi-arrow-down</v-icon>
                         </div>
 
-                        <div v-if="yesterdaysales>comparesales">
+                        <div v-if="yesterdaysales<comparesales">
                             <span class="green--text text_h1">{{ comparesales }} </span><v-icon color="green">mdi-arrow-up</v-icon>
                         </div>
                         <div v-if="comparesales===0">
                             <span class="red--text text_h1">not yet started</span><v-icon color="white">mdi-arrow-down</v-icon>
                         </div>
+                    </v-col>
+                </v-row>
+                <v-row class="md-12">
+                    <v-col cols="12" md="5">
+                        <!-- <div id="chart">
+                          <apexchart type="donut" :options="chartOptions" :series="salesdata.map(dataPoint => dataPoint.sales)"
+                            :labels="salesdata.map(dataPoint => dataPoint.biller)"
+                            ></apexchart>
+                         </div> -->
                     </v-col>
                 </v-row>
             </v-container>
@@ -52,6 +61,7 @@ export default{
     name:'billerdashboard',
     data(){
         return{
+            
             system_inventry:false,
             billmaster:this.$store.state.billmaster,
             stock:this.$store.state.stock,
@@ -61,6 +71,25 @@ export default{
             stockprices:false,
             manager:false,
             useramount:0,
+            salesdata:[],
+            series: [],
+          chartOptions: {
+            chart: {
+              type: 'donut',
+            },
+            labels: [],
+            responsive: [{
+              breakpoint: 480,
+              options: {
+                chart: {
+                  width: 200
+                },
+                legend: {
+                  position: 'bottom'
+                }
+              }
+            }]
+          },
             
         }
     },
@@ -105,27 +134,30 @@ export default{
 
                     } 
             },immediate:true
-        },
-        currentuser:{
-            handler(){
-                // console.log(this.currentuser)
-                for(var i in this.billmaster){
-                    if(this.currentuser === this.billmaster[i].userid){
-                        
-                        this.useramount += this.billmaster[i].billamount
-                    }
-                }
-            },immediate:true
-        }
-
+        },  
+       
     },
     computed:{
         yesterdaysales(){
             let total =0
             for(var i in this.billmaster){
-            let today = new Date().toLocaleDateString()
-            let yesterday = new Date(today - 24 * 60 * 60 * 1000).toDateString()
-            if (yesterday === this.billmaster[i].billdate ){
+            //Old code
+                // let today = new Date().toLocaleDateString()
+            // let yesterday = new Date(today)
+            // yesterday.setTime(today.getTime() - 24 * 60 * 60 * 1000)
+
+            //Updated one
+            // let today = new Date().toLocaleDateString('en-GB');
+
+            // Get yesterday's date by subtracting one day from today
+            let yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            let daybefore = yesterday.toLocaleDateString('en-GB');
+
+            
+
+
+            if (daybefore === this.billmaster[i].billdate ){
 
                 // if (today > this.billmaster[i].billdate){
                     total += this.billmaster[i].netprice
@@ -144,18 +176,75 @@ export default{
             }
             return total
         },
+        todaysales(){
+            let amt =0
+        
+            let today = new Date().toLocaleDateString()
+            for (var i in this.billmaster){
+                if (this.currentuser === this.billmaster[i].userid){
+                    if (today===this.billmaster[i].billdate){
+                        amt += this.billmaster[i].netprice
+                    }
+                    
+                    
+                }
+            }
+            return amt
+        },
         comparesales(){
             let amt =0
             let today = new Date().toLocaleDateString()
             for (var i in this.billmaster){
-                if (today===this.billmaster[i].billdate){
-                    amt += this.billmaster[i].netprice
-                }
+                // if (this.currentuser === this.billmaster[i].userid){
+
+                    if (today===this.billmaster[i].billdate){
+                        amt += this.billmaster[i].netprice
+                    }
+                    
+                // }
             }
             return amt
-        }
-    },
+        },
+    
+        
 
+    },
+    // appecx chart for biiler
+    // (){
+    //     let amt =0
+    //              let today = new Date().toLocaleDateString()
+    //         for (var i in this.billmaster){
+    //             if (this.currentuser === this.billmaster[i].userid){
+    //                 if (today===this.billmaster[i].billdate){
+    //                     amt += this.billmaster[i].netprice
+    //                 }
+    //             }
+    //         }
+    //             this.salesdata.push({ biller: this.currentuser, sales: amt });
+    //         console.log(this.salesdata)
+
+    // }
+//    created(){
+//     // console.log(this.currentuser + "sd")
+//     let today = new Date().toLocaleDateString()
+//     let amount =0
+//     for (var i in this.billmaster){
+//         if (this.currentuser === this.billmaster[i].userid){
+//             this.chartOptions.labels.push(this.currentuser)
+//             if (today===this.billmaster[i].billdate){
+//                 console.log(this.currentuser)
+//                 amount += this.billmaster[i].netprice
+//             }
+//             this.series.push(amount)
+//                 console.log(this.currentuser)
+//             console.log(this.chartOptions.labels)
+//             console.log(this.series)
+            
+//         }
+//     }
+
+//    } 
+   
 }
 
 </script>

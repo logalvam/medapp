@@ -162,7 +162,7 @@
         let start = new Date( this.date).toLocaleDateString()
         let stop = new Date( this.date1).toLocaleDateString()
         for (var i in this.filterarr){
-          console.log(this.filterarr[i].billdate)
+          // console.log(this.filterarr[i].billdate)
           if(start>=this.filterarr[i].billdate){
             if(stop<=this.filterarr[i].billdate){
                       newarray.push(this.filterarr[i])
@@ -176,7 +176,7 @@
    watch:{
    },
    mounted(){
-    console.log('  mounted')
+    // console.log('  mounted')
     
 this.visible=true
       let mergedArray = [];
@@ -195,14 +195,14 @@ this.visible=true
     }
     this.filterarr = mergedArray
 } 
-          console.log(this.filterarr)
+          // console.log(this.filterarr)
 
              
    },
    beforeMount(){
-    console.log('before mounted')
+    // console.log('before mounted')
     this.today=new Date().toLocaleDateString()
-    console.log(this.today)
+    // console.log(this.today)
     },
     
   }
