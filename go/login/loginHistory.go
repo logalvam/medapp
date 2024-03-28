@@ -25,9 +25,9 @@ type HistoryResp struct {
 
 func LoginHistory(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Fprintln(w, "Login History Insert")
+	fmt.Println("Login History Insert")
 	(w).Header().Set("Access-Control-Allow-Origin", "*")
-	(w).Header().Set("Access-Control-Allow-Credentials", "true")
+	(w).Header().Set("Access-Control-Allow-Credentials", "false")
 	(w).Header().Set("Access-Control-Allow-Methods", "PUT,OPTIONS")
 	(w).Header().Set("Access-Control-Allow-Headers", "User,Accept,Content-Type,Content-Length,Accept-Encoding,X-CSRF-Token,Authorization")
 
@@ -50,32 +50,31 @@ func LoginHistory(w http.ResponseWriter, r *http.Request) {
 				fmt.Fprintln(w, resp)
 				fmt.Println(resp)
 			} else {
-				Result,err := insertLoginHistory(HistoryRec)
+				Result, err := insertLoginHistory(HistoryRec)
 				if err != nil {
 					resp.Status = "E"
 					resp.ErrMsg = err.Error()
 					fmt.Fprintln(w, resp)
 					fmt.Println(resp)
 				} else {
-					data,err := json.Marshal(Result)
+					data, err := json.Marshal(Result)
 					if err != nil {
 						resp.Status = "E"
 						resp.ErrMsg = err.Error()
 						fmt.Fprintln(w, resp)
 						fmt.Println(resp)
-					} else{
+					} else {
 						fmt.Fprintln(w, string(data))
 
 					}
 				}
 			}
-			
-			
+
 		}
 	}
 }
 
-func insertLoginHistory(HistoryRec HistoryStruct) (HistoryResp ,error){
+func insertLoginHistory(HistoryRec HistoryStruct) (HistoryResp, error) {
 	var resp HistoryResp
 	resp.Status = "S"
 	db, err := LocalDBConnect()
@@ -86,7 +85,7 @@ func insertLoginHistory(HistoryRec HistoryStruct) (HistoryResp ,error){
 	} else {
 		defer db.Close()
 		lLoginHis := `insert into loganathan.medapp_login_history(login_date,login_time,logout_time,created_by,created_date,updated_by,updated_date,user_id)values(curdate(),Now(),null,?,curdate(),?,curdate(),?)`
-		_, err := db.Query(lLoginHis, &HistoryRec.CreatedBy, &HistoryRec.UpdatedBy, &HistoryRec.UserId)
+		_, err := db.Query(lLoginHis, &HistoryRec.UserId, &HistoryRec.UserId, &HistoryRec.UserId)
 		if err != nil {
 			resp.ErrMsg = err.Error()
 			resp.Status = "E"
@@ -96,5 +95,5 @@ func insertLoginHistory(HistoryRec HistoryStruct) (HistoryResp ,error){
 			fmt.Println(resp)
 		}
 	}
-	return resp,err
+	return resp, err
 }

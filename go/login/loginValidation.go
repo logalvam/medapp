@@ -20,9 +20,9 @@ type LoginResp struct {
 
 func LoginValidation(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Fprintln(w, "Login Validation")
+	fmt.Println("Login Validation")
 	(w).Header().Set("Access-Control-Allow-Origin", "*")
-	(w).Header().Set("Access-Control-Allow-Credentials", "true")
+	(w).Header().Set("Access-Control-Allow-Credentials", "false")
 	(w).Header().Set("Access-Control-Allow-Methods", "PUT,OPTIONS")
 	(w).Header().Set("Access-Control-Allow-Headers", "Accept,Content-Type,Content-Length,Accept-Encoding,X-CSRF-Token,Authorization")
 

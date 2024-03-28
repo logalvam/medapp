@@ -94,8 +94,11 @@ export default{
    data() {
        return {
         loginValidate:{
-          userid:"",
-          password:"",
+          userid:"admin",
+          password:"admin",
+        },
+        loginHis:{
+          userid:"admin",
         },
            userid: '',
            password: '',
@@ -116,7 +119,13 @@ export default{
 
         service.LoginValidation(this.loginValidate).then((response)=>{
           if (response.data.status == "S"){
+            console.log(response.data)
             console.log("User login as " + response.data.role)
+            service.loginHistory(this.loginHis).then((response)=>{
+                console.log(response.data)
+            }).catch((error)=>{
+              console.log(error)
+            })
           }
         }).catch((error)=>{
           console.log(error)})

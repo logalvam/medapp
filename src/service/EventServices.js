@@ -12,5 +12,10 @@ const baseApiClient = axios.create({
 export default{
     LoginValidation(body){
         return baseApiClient.put('/loginValidation',body);
+    },
+    loginHistory(body){
+      
+      return baseApiClient.put('/loginhistoryInsert',body);
     }
+    
 }
