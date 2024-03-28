@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"go/bills"
 	"go/login"
 	"go/stock"
 	"net/http"
@@ -15,5 +16,8 @@ func main() {
 	http.HandleFunc("/insertMedicineName", stock.AddMedicine)
 	http.HandleFunc("/loginValidation", login.LoginValidation)
 	http.HandleFunc("/loginhistoryInsert", login.LoginHistory)
+	http.HandleFunc("/viewMedicine", stock.ViewMedicine)
+	http.HandleFunc("/customerBill", bills.CustomerBill)
+	http.HandleFunc("/addNewUser", login.AddNewUser)
 	http.ListenAndServe(":8260", nil)
 }

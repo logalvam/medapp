@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "apexcharts": "^3.46.0",
+    "axios": "^1.6.8",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-apexcharts": "^1.6.2",

@@ -64,7 +64,6 @@ func AddMedicine(w http.ResponseWriter, r *http.Request) {
 					fmt.Println("Stock is inserted")
 					fmt.Fprintln(w, "Success")
 					fmt.Fprintln(w, string(data))
-
 				}
 
 			}

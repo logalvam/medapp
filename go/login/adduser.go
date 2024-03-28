@@ -4,38 +4,35 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 )
 
-type HistoryStruct struct {
+type NewUserStruct struct {
+	LoginId     int    `json:"loginid"`
 	UserId      string `json:"userid"`
-	LoginDate   string `json:"logindate"`
-	LoginTime   string `json:"logintime"`
-	LogoutTime  string `json:"logouttime"`
+	PassWord    string `json:"password"`
+	Role        string `json:"role"`
 	CreatedBy   string `json:"createdBy"`
 	CreatedDate string `json:"createdDate"`
 	UpdatedBy   string `json:"updatedBy"`
 	UpdatedDate string `json:"updatedDate"`
 }
-type HistoryResp struct {
+
+type NewUserResp struct {
 	Status string `json:"status"`
 	ErrMsg string `json:"errMeg"`
 }
 
-func LoginHistory(w http.ResponseWriter, r *http.Request) {
-
-	fmt.Fprintln(w, "Login History Insert")
+func AddNewUser(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Insert New User")
 	(w).Header().Set("Access-Control-Allow-Origin", "*")
 	(w).Header().Set("Access-Control-Allow-Credentials", "true")
 	(w).Header().Set("Access-Control-Allow-Methods", "PUT,OPTIONS")
 	(w).Header().Set("Access-Control-Allow-Headers", "User,Accept,Content-Type,Content-Length,Accept-Encoding,X-CSRF-Token,Authorization")
-
 	if r.Method == "PUT" {
-		var HistoryRec HistoryStruct
-		var resp LoginResp
+		var UserRec NewUserStruct
+		var resp NewUserResp
 		resp.Status = "S"
-
 		body, err := io.ReadAll(r.Body)
 		if err != nil {
 			resp.Status = "E"
@@ -43,50 +40,54 @@ func LoginHistory(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintln(w, resp)
 			fmt.Println(resp)
 		} else {
-			err := json.Unmarshal(body, &HistoryRec)
+			err := json.Unmarshal(body, &UserRec)
 			if err != nil {
 				resp.Status = "E"
 				resp.ErrMsg = err.Error()
 				fmt.Fprintln(w, resp)
 				fmt.Println(resp)
 			} else {
-				Result,err := insertLoginHistory(HistoryRec)
+				Result, err := AddUser(UserRec)
 				if err != nil {
 					resp.Status = "E"
 					resp.ErrMsg = err.Error()
 					fmt.Fprintln(w, resp)
 					fmt.Println(resp)
 				} else {
-					data,err := json.Marshal(Result)
+					data, err := json.Marshal(Result)
 					if err != nil {
 						resp.Status = "E"
 						resp.ErrMsg = err.Error()
 						fmt.Fprintln(w, resp)
 						fmt.Println(resp)
-					} else{
+					} else {
 						fmt.Fprintln(w, string(data))
-
+						fmt.Println("User Added")
 					}
 				}
 			}
-			
-			
 		}
+
 	}
 }
 
-func insertLoginHistory(HistoryRec HistoryStruct) (HistoryResp ,error){
-	var resp HistoryResp
+func AddUser(UserRec NewUserStruct) (NewUserResp, error) {
+	var resp NewUserResp
 	resp.Status = "S"
 	db, err := LocalDBConnect()
 	if err != nil {
-		log.Println(err)
 		resp.ErrMsg = err.Error()
 		resp.Status = "E"
 	} else {
 		defer db.Close()
-		lLoginHis := `insert into loganathan.medapp_login_history(login_date,login_time,logout_time,created_by,created_date,updated_by,updated_date,user_id)values(curdate(),Now(),null,?,curdate(),?,curdate(),?)`
-		_, err := db.Query(lLoginHis, &HistoryRec.CreatedBy, &HistoryRec.UpdatedBy, &HistoryRec.UserId)
+		InserUser := `insert  into  loganathan.medapp_login (login_id,user_id,password,role,created_by,created_date,updated_by,updated_date)
+		select ?,?,?,?,"admin" ,curdate(),"admin",curdate()
+		from dual
+		where not exists (select 1 from loganathan.medapp_login
+		where user_id = ?)`
+
+		_, err := db.Query(InserUser, &UserRec.LoginId, &UserRec.UserId, &UserRec.PassWord, &UserRec.Role, &UserRec.UserId)
+
 		if err != nil {
 			resp.ErrMsg = err.Error()
 			resp.Status = "E"
@@ -96,5 +97,5 @@ func insertLoginHistory(HistoryRec HistoryStruct) (HistoryResp ,error){
 			fmt.Println(resp)
 		}
 	}
-	return resp,err
+	return resp, err
 }

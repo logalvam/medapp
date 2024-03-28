@@ -86,12 +86,17 @@
 </template>
 <script>
 
+import service from "../service/EventServices.js"
 
 // import medlogin1 from "../components/medlogin.vue"
 export default{
    name: 'loginpage',
    data() {
        return {
+        loginValidate:{
+          userid:"",
+          password:"",
+        },
            userid: '',
            password: '',
            data: this.$store.state.login,
@@ -108,6 +113,15 @@ export default{
            this.logout=value
        },
        login() {
+
+        service.LoginValidation(this.loginValidate).then((response)=>{
+          if (response.data.status == "S"){
+            console.log("User login as " + response.data.role)
+          }
+        }).catch((error)=>{
+          console.log(error)})
+
+
            let user = this.userid;
            let passw = this.password;
            this.date = new Date().toLocaleString();
