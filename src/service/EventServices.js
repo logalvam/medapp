@@ -13,9 +13,12 @@ export default{
     LoginValidation(body){
         return baseApiClient.put('/loginValidation',body);
     },
-    loginHistory(body){
-      
-      return baseApiClient.put('/loginhistoryInsert',body);
+    loginHistory(user){
+      console.log(user)
+      const hdr ={
+          headers:{"USER": user}
+      }
+      return baseApiClient.put('/loginhistoryInsert',hdr);
     }
     
 }

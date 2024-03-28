@@ -34,7 +34,8 @@
               >
                 <v-text-field
                   label="User name*"
-                  v-model="userid"
+                  v-model="loginValidate.userid"
+            
                   required
                 ></v-text-field>
               </v-col>
@@ -44,7 +45,7 @@
                 md="11"
               >
                 <v-text-field
-                v-model="password" 
+                v-model="loginValidate.password" 
                   label="Password"
                   type="password"
                 ></v-text-field>
@@ -94,20 +95,10 @@ export default{
    data() {
        return {
         loginValidate:{
-          userid:"admin",
-          password:"admin",
+          userid:"",
+          password:"",
         },
-        loginHis:{
-          userid:"admin",
-        },
-           userid: '',
-           password: '',
-           data: this.$store.state.login,
-           date: '',
-           userrole:'',
-           logout:'notyet',
-           valid:false,
-           propuserid:'',
+        
         
        };
    },
@@ -116,13 +107,14 @@ export default{
            this.logout=value
        },
        login() {
-
+        console.log(this.loginValidate)
         service.LoginValidation(this.loginValidate).then((response)=>{
           if (response.data.status == "S"){
-            console.log(response.data)
+            // let role =response.data.role
             console.log("User login as " + response.data.role)
-            service.loginHistory(this.loginHis).then((response)=>{
+            service.loginHistory(this.loginValidate.userid).then((response)=>{
                 console.log(response.data)
+                // this.$router.push('/medlogin');
             }).catch((error)=>{
               console.log(error)
             })
@@ -131,46 +123,46 @@ export default{
           console.log(error)})
 
 
-           let user = this.userid;
-           let passw = this.password;
-           this.date = new Date().toLocaleString();
-           for (var i in this.data) {
-               if (this.data[i].username === user) {
-                   if (this.data[i].password === passw) {
-                       if (this.data[i].role === 'Biller') {
-                           this.userrolerole = 'Biller';
-                           alert('user is biller');
-                           let newuserentry = { userid: user, 'login': this.date, 'logout': this.logout };
-                           this.$store.state.loginhistory.push(newuserentry)
-                           this.$router.push('/medlogin');
-                       }
-                       else if (this.data[i].role === 'Manager') {
-                               this.userrolerole = 'Manager';
-                               alert('user is manager');
-                                let newuserentry = { userid: user, 'login': this.date, 'logout': this.logout };
-                                this.$store.state.loginhistory.push(newuserentry)
-                                this.$router.push('/medlogin');
-                       }
-                       else if (this.data[i].role === 'SystemAdmin') {
-                        this.userrolerole = 'SyatemAdmin';
-                               alert('user is admin');
-                                let newuserentry = { userid: user, 'login': this.date, 'logout': this.logout };
-                                this.$store.state.loginhistory.push(newuserentry)
-                                this.$router.push('/medlogin');
-                       }
-                       else if (this.data[i].role === 'Inventry') {
-                           this.userrolerole = 'Inventry';
-                               alert('user is Inventry');
-                                let newuserentry = { userid : user, 'login': this.date, 'logout': this.logout };
-                                this.$store.state.loginhistory.push(newuserentry)
-                                this.$router.push('/medlogin');
-                       }
-                   }
-                   else{
-                    alert('Please verify username and password')
-                   }
-               }
-           }
+          //  let user = this.userid;
+          //  let passw = this.password;
+          //  this.date = new Date().toLocaleString();
+          //  for (var i in this.data) {
+          //      if (this.data[i].username === user) {
+          //          if (this.data[i].password === passw) {
+          //              if (this.data[i].role === 'Biller') {
+          //                  this.userrolerole = 'Biller';
+          //                  alert('user is biller');
+          //                  let newuserentry = { userid: user, 'login': this.date, 'logout': this.logout };
+          //                  this.$store.state.loginhistory.push(newuserentry)
+          //                  this.$router.push('/medlogin');
+          //              }
+          //              else if (this.data[i].role === 'Manager') {
+          //                      this.userrolerole = 'Manager';
+          //                      alert('user is manager');
+          //                       let newuserentry = { userid: user, 'login': this.date, 'logout': this.logout };
+          //                       this.$store.state.loginhistory.push(newuserentry)
+          //                       this.$router.push('/medlogin');
+          //              }
+          //              else if (this.data[i].role === 'SystemAdmin') {
+          //               this.userrolerole = 'SyatemAdmin';
+          //                      alert('user is admin');
+          //                       let newuserentry = { userid: user, 'login': this.date, 'logout': this.logout };
+          //                       this.$store.state.loginhistory.push(newuserentry)
+          //                       this.$router.push('/medlogin');
+          //              }
+          //              else if (this.data[i].role === 'Inventry') {
+          //                  this.userrolerole = 'Inventry';
+          //                      alert('user is Inventry');
+          //                       let newuserentry = { userid : user, 'login': this.date, 'logout': this.logout };
+          //                       this.$store.state.loginhistory.push(newuserentry)
+          //                       this.$router.push('/medlogin');
+          //              }
+          //          }
+          //          else{
+          //           alert('Please verify username and password')
+          //          }
+          //      }
+          //  }
        }
    },
    components: { 
@@ -203,14 +195,8 @@ export default{
         },
                 
     },
-    created(){
-        // console.log('created')
-    },
-    mounted(){
-        // console.log('mounted')
-    },
-    destroyed(){
-        // console.log('destroyed')
+    computed:{
+
     }
 }
 </script>
